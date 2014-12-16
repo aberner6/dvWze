@@ -1,0 +1,13 @@
+lattice grid
+based on historical data
+subject to user data
+
+data for dec and jan
+active usage
+alerts by type
+average speed, distance per drive, minutes per drive, total driven kilometers
+on what day did they drive
+what day are people driving the most
+which day was it easy to get a long distance / not easy
+
+highlighting the stories

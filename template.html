@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+ <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+ <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
+
+</head>
+<style>
+        body {
+            font-family: 'Lato', sans-serif;
+            font-size:12px;
+            font-weight: 100;
+            background-color: white;
+            /*#515151;*/
+        }
+/*body{
+	margin: 0;
+	padding: 13px 0;
+	font-family: georgia, "times new roman", times, serif;
+	font-size: 62.5%;
+	line-height: 1.5em;
+	color: #333;
+	background-color: #fff;
+}*/
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+
+
+
+
+
+
+
+
+
+#shell {
+	width: 972px;
+	margin: 0 auto;
+	text-align: left;
+}
+div#main {
+  border-top: 1px solid #fff;
+  clear: both;
+  margin-top: 15px;
+  padding: 0 0 7px 0;
+}
+#interactiveABC .ledeStory .summary {
+padding-right: 10px;
+line-height: 1.357em;
+font-size: 1.4em;
+margin-bottom: 5px;
+}
+
+  #g-graphic {
+    /*font-family: arial;*/
+    padding: 10px;
+  }
+  .annotation {
+    position: absolute;
+    font-size: 11px;
+    line-height: 1.4em;
+    color: #999;
+  }
+  .annotation-pointer {
+    stroke: #bbb;
+    stroke-opacity: 0.5;
+    shape-rendering: crispEdges;
+  }
+  .annotation-pointer rect {
+    fill: #666;
+    stroke: none;
+  }
+  .annotation-pointer path {
+    fill: none;
+    stroke: #999;
+  }
+  .movie svg, .annotations {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+  .stage {
+    height: 250px;
+    position: absolute;
+    top: 170px;
+  }
+  .bar-hover {
+    fill-opacity: 0;
+    shape-rendering: crispEdges;
+    pointer-events: all;
+  }
+  .cut:hover .bar {
+    stroke: #000;
+    stroke-width: 1.5px;
+  }
+  .bar-hover:hover {
+    fill-opacity: 0.05;
+  }
+  .axis {
+    shape-rendering: crispEdges;
+    font-size: 10px;
+    fill: #aaa;
+  }
+
+  .scatterline {
+    fill: none;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+  }
+  .domain {
+  }
+  .section-line,
+  .baseline {
+    stroke: #ddd;
+  }
+  .section-line {
+    stroke-dasharray: 3,3;
+  }
+  .y.axis .separator {
+    stroke: #aaa;
+  }
+  .y.axis .label {
+    font-weight: bold;
+    font-size: 11px;
+    fill: #000;
+    text-anchor: end;
+  }
+  .y.axis .missing-section text {
+    fill: #aaa;
+    font-size: 11px;
+    text-anchor: end;
+  }
+  .y.axis .section-marker rect {
+    fill-opacity: .07;
+  }
+  .axis path {
+    display: none;
+  }
+  .x.axis .tick {
+    stroke: #ccc;
+  }
+  #main #interactiveFooter {
+    border-top:1px solid #ddd;
+    margin-top:10px;
+    padding-top:12px;
+  }
+  #main div.storyHeader h1 {
+    font-size: 26px;
+    margin-bottom: 8px;
+    margin-top: 35px;
+    text-align: center;
+  }
+  #main div.storySummary {
+    width: 800px;
+    margin: 0 auto 20px;
+    text-align: center;
+    font-size: 1.1em;
+    line-height: 1.5em;
+  }
+
+
+
+.intro {
+	/*font-family: Georgia;*/
+	color: #666;
+	line-height: 1.5em;
+	font-size: 15px;
+	width: 640px;
+}
+.stage {
+	height: 250px;
+	position: absolute;
+	top: 170px;
+}
+#g-graphic {
+	/*font-family: arial;*/
+	padding: 10px;
+}
+.movie svg, .annotations {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.movie {
+border-top: solid 1px #aaa;
+position: relative;
+margin: 0 0 20px;
+padding-top: 25px;
+height: 440px;
+}
+
+
+ 
+        .unselectable {
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* css formats for the gauge */
+        .gauge .domain {
+            stroke-width: 1px;
+            stroke: lightblue;
+            /*#fff;*/
+            font-size:10px;
+                        shape-rendering: geometricPrecision;
+
+        }
+
+        .gauge .tick line {
+            /*stroke: #fff;*/
+            stroke: lightblue;
+            /*#fff;*/
+            stroke-width: 1px;
+                        shape-rendering: geometricPrecision;
+
+        }
+        .gauge path {
+        	display:block;
+                        shape-rendering: geometricPrecision;
+
+        }
+        .gauge line {
+            stroke: lightblue;
+                        shape-rendering: geometricPrecision;
+
+        }
+
+        .gauge .arc, .gauge .cursor {
+            opacity: 0;
+                        shape-rendering: geometricPrecision;
+
+        }
+
+        .gauge .major {
+            stroke: lightblue;
+                shape-rendering: geometricPrecision;
+        }
+        
+        .gauge .indicator {
+            stroke: #EE3311;
+            fill: #000;
+            stroke-width: 2px;
+            shape-rendering: geometricPrecision;
+        }
+        #speedometer{
+            /*position:relative;*/
+            /*padding-right:70px;*/
+            position:relative;
+        }
+        svg{
+          /*position: absolute;*/
+          /*padding-left: 70px;*/
+          /*margin-left:150px;*/
+        }
+        #cities{
+          /*position:absolute;*/
+        }
+        /*.SF,.NYC,.LA,.CHI,.BOS{*/
+            /*padding-right:150px;*/
+            /*position:absolute;
+            top:330px;
+        }*/
+        .SF,.NYC,.LA,.CHI,.BOS,.ATL,.DC,.DA{
+          padding-left:150px;
+          /*position:relative;*/
+          /*top:500px;*/
+
+        } 
+        #fuckometer{
+          /*padding-top:200px;*/
+        }
+        h3{
+          border-top: 1px dashed lightblue;
+          padding-top: 10px; 
+          }       
+</style>
+
+<body>
+<div id="main">
+<div id="interactiveShell">
+<div class="columnGroup firstColumnGroup">
+<div class="ledeStory">
+<div class="module insetHFullWidth">
+
+<div class="storyHeader">
+<h6 class="dateline">
+<span>Published: </span>December 21st, 2014                                    
+</h6>
+<h1>Last Year in Waze</h1>
+</div>
+<div class="storySummary">
+<span class="summary">What did Waze users do last December? How much did you use the app during the holidays? How far did you drive before Christmas Day as opposed to after Christmas Day? What did Waze users do last December? How much did you use the app during the holidays?</span>
+</div>
+
+
+    <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
+		    <center>              
+        <h3>
+          Hey what's up this is stuff about speedometer blah blah
+        </h3>   
+        <p>
+          Hey what's up this is stuff about speedometer blah blah
+          Hey what's up this is stuff about speedometer blah blah
+          Hey what's up this is stuff about speedometer blah blah                              
+        </p>  
+		    <div id="speedometer">
+		    </div>
+        <h3>
+          Hey what's up this is stuff about speedometer blah blah
+        </h3>   
+        <p>
+          Hey what's up this is stuff about speedometer blah blah
+          Hey what's up this is stuff about speedometer blah blah
+          Hey what's up this is stuff about speedometer blah blah                              
+        </p>          
+        <div id="fuckometer">
+        </div>
+		    </center>	    
+        <!-- <center>                    -->
+
+              <div id="cities"></div>
+<!--             <div class="SF">SF</div>
+            <div class="NYC">NYC</div>
+            <div class="LA">LA</div>
+            <div class="CHI">CHI</div>
+            <div class="BOS">BOS</div>
+            <div class="ATL">ATL</div>
+            <div class="DC">DC</div>
+            <div class="DA">DA</div>  --> 
+          <!-- </div>   -->
+          <!-- </center>        -->
+    <script>
+
+
+    var radius = 50;
+    var width = radius*3;
+    var height = radius*3;
+
+        var gauge = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+
+
+
+
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge);
+        gauge.value(92);
+        // svg.append("text")
+// var body = d3.selectAll("body");
+// var p = gauge.append("p");
+// p.text("New paragraph!");
+
+
+
+
+
+        var gauge1 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge1.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge1);
+        gauge1.value(32); 
+
+
+
+
+
+
+
+
+
+        var gauge2 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge2.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height)
+
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge2);
+        gauge2.value(32);   
+
+
+        var gauge3 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge3.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge3);
+        gauge3.value(92); 
+
+        var gauge4 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge4.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge4);
+        gauge4.value(92);
+
+        var gauge5 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge5.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge5);
+        gauge5.value(92); 
+
+
+        var gauge6 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge6.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge6);
+        gauge6.value(92);   
+
+        var gauge7 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge7.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge7);
+        gauge7.value(92);   
+
+        var gauge8 = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge8.axis().orient("in")
+                .normalize(true)
+                .ticks(6)
+                .tickSubdivide(1)
+                .tickSize(7, 5, 7)
+                .tickPadding(1)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge8);
+        gauge8.value(92); 
+
+
+
+
+// var dataset = [ 5, 10, 15, 20, 25, 15, 20, 25 ];
+
+
+      //Width and height
+      // var w = 500;
+      // var h = 100;
+      // var barPadding = 1;
+    
+      
+      //Create SVG element
+      // var svg1 = d3.select("body")
+      //       .append("svg")
+      //       .attr("width", w)
+      //       .attr("height", h);
+
+      // svg1.selectAll("text")
+      //    .data(dataset)
+      //    .enter()
+      //    .append("text")
+      //    .text(function(d) {
+      //       return d;
+      //    })
+      //    .attr("text-anchor", "middle")
+      //    .attr("x", function(d, i) {
+      //       return i * (w / dataset.length) + (w / dataset.length - barPadding) / 2;
+      //    })
+      //    .attr("y", function(d) {
+      //       return h - (20 * 4) + 14;
+      //    })
+      //    .attr("font-family", "sans-serif")
+      //    .attr("font-size", "11px")
+      //    .attr("fill", "black");
+
+
+      
+    
+
+
+    </script>	
+<script>
+var windowWidth = window.outerWidth;
+
+var margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = windowWidth- margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%Y%m%d").parse;
+
+var x = d3.time.scale()
+    .range([0, width]);
+
+var y = d3.scale.linear()
+    .range([height, 0]);
+
+
+var xScale = d3.time.scale()
+    // .domain([0, pathLength])
+    .range([0, width]);
+var yScale = d3.scale.linear()
+    // .domain([0, pathLength])
+    .range([height, 0]);
+
+var color = d3.scale.category20c();
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom");
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var line = d3.svg.line()
+    .interpolate("basis")
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.temperature); });
+
+
+
+
+var svg = d3.select("#fuckometer").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.tsv("data.tsv", function(error, data) {
+  color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
+
+  data.forEach(function(d) {
+    d.date = parseDate(d.date);
+  });
+
+  var cities = color.domain().map(function(name) {
+    return {
+      name: name,
+      values: data.map(function(d) {
+        return {date: d.date, temperature: +d[name]};
+      })
+    };
+  });
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+
+  y.domain([
+    d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
+    d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
+  ]);
+
+
+  xScale.domain(d3.extent(data, function(d) { return d.date; }));
+
+  yScale.domain([
+    d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
+    d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
+  ]);  
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Temperature (ºF)");
+
+console.log(cities);
+  var city = svg.selectAll(".city")
+      .data(cities)
+    .enter().append("g")
+      .attr("class", "city");
+
+
+
+
+
+
+  xScale.domain(d3.extent(data, function(d) { return d.date; }));
+
+  yScale.domain([
+    d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
+    d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
+  ]);  
+console.log(data);
+var data = data;
+var austin = [];
+var austinDate = [];
+for (i=0; i<data.length; i++){
+  austin.push(data[i].Austin);
+  austinDate.push(data[i].date)
+}
+console.log(austin)
+
+var thisIs = svg.selectAll(".circ")
+  .data(austin)
+  .enter()
+  .append("circle")
+  .attr("class","circ")
+  .attr("cy", function(d) { return yScale(d); })
+  .attr("cx", function(d,i){
+    return xScale(austinDate[i]);
+  })
+  .attr("r",1)
+  .attr("fill","black")
+  .attr("opacity",.2)
+
+
+
+
+
+
+
+
+
+
+
+  city.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values); })
+      .attr("opacity",.5)
+      .style("stroke", function(d) { return color(d.name); });
+
+  city.append("text")
+      .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
+      .attr("x", 3)
+      .attr("dy", ".35em")
+      .text(function(d) { return d.name; });
+});
+
+</script>    
+    		<div id="g-graphic">
+    		</div>	
+ <!-- // <script src="nyt.js" charset="utf-8"></script> -->
+</body>
+</html>

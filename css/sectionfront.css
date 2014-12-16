@@ -1,0 +1,189 @@
+/* $Id: sectionfront.css 141635 2014-04-07 05:20:32Z sreelakshmi_d $
+/css/0.1/screen/common/sectionfront.css
+(c)2006 - 2009 The New York Times Company  */ 
+
+@import url(/css/0.1/screen/common/global.css);
+@import url(/css/0.1/screen/common/shell.css);
+@import url(/css/0.1/screen/common/masthead.css);
+@import url(/css/0.1/screen/common/navigation.css);
+@import url(/css/0.1/screen/common/modules.css);
+@import url(/css/0.1/screen/common/mostpopular.css);
+@import url(/css/0.1/screen/common/layout.css?version=20100413);
+@import url(/css/0.1/screen/common/ads.css);
+@import url(/css/0.1/screen/common/macros.css);
+@import url(/css/0.1/screen/common/googleads.css);
+@import url(/css/0.1/screen/common/modules/headlines.css);
+@import url(/css/0.1/screen/common/modules/followUsModule.css);
+@import url(/css/0.1/screen/common/modules/sharetools/common.css);
+@import url(/css/0.1/screen/common/modules/video/player.css);
+@import url(/css/0.1/screen/common/modules/video/poster.css);
+@import url(/css/0.1/screen/common/nyt5/sectionfront-body.css);
+@import url(/css/0.1/screen/common/nyt5/common-masthead.css);
+@import url(/css/0.1/screen/common/nyt5/sectionfront-masthead.css);
+
+.aColumn .columGroup {
+	border-top:1px solid #ccc;
+	background-image: none;
+}
+
+/* Begin Lede Story */
+
+.ledeStory {
+  margin-bottom:8px;
+}
+
+.ledeStory h1 {
+	font-size: 2em;
+	line-height: 1.15em; /* 23px */
+}
+
+.ledeStory .storyHeader {
+	margin-bottom: 6px;
+}
+
+.ledeStory .summary {
+	font-size: 1.4em;
+	line-height: 1.214em; /* 17px */
+}
+
+/* End Lede Story */
+
+/* TODO remove. Impersonates h5s while template preprocessor is being developed*/
+.bColumn .story h3 {
+	font-size:1.2em;
+	line-height: 1.25em; /* 15px */
+}
+
+.aprModule .kicker {
+	margin-top: 2px;
+  margin-bottom: 5px;
+}
+
+#SpanABMiddleRegion {
+  clear: both;
+  background-color: #fff;
+}
+
+.commentIcon {
+  padding: 0 0 3px 12px;
+}
+
+.bColumn li .commentIcon {
+  background-position: left center;
+}
+
+.commentLink {  
+  padding-bottom: 5px;
+}
+
+.commentsRefer {
+  margin-top: -2px;
+}
+
+.footerRefer {
+  padding-top: 1px;
+}
+
+/* Begin media story and video story */
+
+.mediaStory .hovered-link {
+  text-decoration: underline;
+}
+
+.mediaStory .image,
+.mediaStory .thumbnail {
+  position: relative;
+}
+
+.mediaStoryOverlay {
+  background: url(/images/sprites/media-story-overlay-sprite.png) no-repeat;
+  position: absolute;
+}
+
+.videoStory .ledePhoto .mediaStoryOverlay {
+  bottom: 19px;
+  *bottom: 18px; /* for IE7 */
+  height: 50px;
+  left: 15px;
+}
+
+.videoStory .ledePhoto .mediaStoryOverlay {
+  background-position: 0 -380px;
+  width: 55px;
+}
+
+.videoStory .ledePhoto .mediaStoryOverlayExpanded {
+  background-position: 0 -430px;
+  width: 139px;
+}
+
+.videoStory .thumbnail .mediaStoryOverlay {
+  bottom: 9px;
+  *bottom: 8px; /* for IE7 */
+  left: 5px;
+}
+
+.videoStory .thumbnail .mediaStoryOverlay,
+.videoStory .w190 .mediaStoryOverlay {
+  height: 30px;
+}
+
+.videoStory .thumbnail .mediaStoryOverlay,
+.videoStory .thumbnail .mediaStoryOverlayExpanded,
+.videoStory .w190 .mediaStoryOverlay {
+  background-position: 0 -480px;
+  width: 33px;
+}
+
+.videoStory .thumbnail .mediaStoryOverlayExpanded {
+  background-position: 0 -540px;
+}
+
+.videoStory .w190 .mediaStoryOverlay {
+  bottom: 14px;
+  *bottom: 13px; /* for IE7 */
+  left: 10px;
+}
+
+.videoStory .w190 .mediaStoryOverlayExpanded {
+  background-position: 0 -510px;
+  width: 100px;
+}
+/* End media story and video story */
+
+.extendedVideoPlayerModule .extVidPlayerHeader .extVidPlayerSectionHeaderLink,
+.extendedVideoPlayerModule .videoDetails .shortDescription,
+.extendedVideoPlayerModule .videoThumbs .shortDescription {
+  color: #000;
+  font-family: nyt-cheltenham;
+}
+
+.extendedVideoPlayerModule .videoDetails .longDescription {
+  line-height: 18px; 
+}
+
+.extendedVideoPlayerModule .videoDetails .kicker {
+  color: #4D4D4D;
+}
+
+.extendedVideoPlayerModule .videoDetails {
+  margin: 0 5px;
+}
+
+.extendedVideoPlayerModule .videoThumbs .shortDescription {
+  font-family: nyt-franklin;
+}
+
+.bColumn .ledeStory h1,
+.bColumn .ledeStory h1 .media {
+  font-family: "nyt-cheltenham", georgia, "times new roman", times, serif;
+  line-height: 1.056em; /* 19px */
+}
+
+.bColumn .ledeStory h1 .media {
+  font-size: 1em; /* 18px */
+}
+
+.bColumn .ledeStory h1 {
+  font-size: 1.8em; /* 18px */
+}

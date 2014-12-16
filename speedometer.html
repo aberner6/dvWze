@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Speedometer</title>
+<!--     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Play:700,400' type='text/css'>
+ -->    
+ <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
+    <script type="text/javascript" src="http://iop.io/js/vendor/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerEvents/pointerevents.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/vendor/polymer/PointerGestures/pointergestures.js"></script>
+    <script type="text/javascript" src="http://iop.io/js/iopctrl.js"></script>
+    
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            font-size:12px;
+            font-weight: 100;
+            background-color: white;
+            /*#515151;*/
+        }
+
+        .unselectable {
+            -moz-user-select: -moz-none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* css formats for the gauge */
+        .gauge .domain {
+            stroke-width: 2px;
+            stroke: lightblue;
+            /*#fff;*/
+        }
+
+        .gauge .tick line {
+            /*stroke: #fff;*/
+            stroke: lightblue;
+            /*#fff;*/
+            stroke-width: 2px;
+        }
+        
+        .gauge line {
+            stroke: lightblue;
+        }
+
+        .gauge .arc, .gauge .cursor {
+            opacity: 0;
+        }
+
+        .gauge .major {
+            stroke: lightblue;
+        }
+        
+        .gauge .indicator {
+            stroke: #EE3311;
+            fill: #000;
+            stroke-width: 4px;
+        }
+        #speedometer2{
+            position:relative;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <span id="speedometer"></span>
+    </div>
+    <div>
+        <span id="speedometer2"></span>
+    </div>
+    
+    <script>
+
+    var radius = 100;
+    var width = radius*2.5;
+    var height = radius*2.5;
+
+        var svg = d3.select("#speedometer")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        var gauge = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge.axis().orient("in")
+                .normalize(true)
+                .ticks(12)
+                .tickSubdivide(3)
+                .tickSize(10, 8, 10)
+                .tickPadding(5)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge);
+        gauge.value(92);
+
+        var svg = d3.select("#speedometer2")
+                .append("svg:svg")
+                .attr("width", width)
+                .attr("height", height);
+        var gauge = iopctrl.arcslider()
+                .radius(radius)
+                .events(false)
+                .indicator(iopctrl.defaultGaugeIndicator);
+        gauge.axis().orient("in")
+                .normalize(true)
+                .ticks(12)
+                .tickSubdivide(3)
+                .tickSize(10, 8, 10)
+                .tickPadding(5)
+                .scale(d3.scale.linear()
+                        .domain([0, 160])
+                        .range([-3*Math.PI/4, 3*Math.PI/4]));
+        svg.append("g")
+                .attr("class", "gauge")
+                .call(gauge);
+        gauge.value(32);    
+    </script>
+</body>
